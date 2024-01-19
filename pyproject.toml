@@ -2,7 +2,7 @@
 name = "helpo"
 version = "0.2.0"
 description = "A library of python helpers"
-authors = ["Stablecaps stablecaps 114529342+darkpandarts@users.noreply.github.com"]
+authors = ["Stablecaps <114529342+darkpandarts@users.noreply.github.com>"]
 license = "LICENSE"
 readme = "README.md"
 keywords=[
@@ -89,11 +89,16 @@ wrapt = "1.11.2"
 yaspin = "0.15.0"
 zipp = "3.1.0"
 
+# [tool.poetry.group.test.dependencies]
+# pytest = "^7.2.2"
+# requests-mock = "^1.10.0"
+
+
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
 
-# [project.urls]
-# "Homepage" = "https://github.com/stablecaps/helpohelpo"
-# "Bug Tracker" = "https://github.com/stablecaps/helpohelpo/issues"
+[tool.poetry.urls]
+"Homepage" = "https://github.com/stablecaps/helpohelpo"
+"Bug Tracker" = "https://github.com/stablecaps/helpohelpo/issues"
