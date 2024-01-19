@@ -13,13 +13,13 @@
 
 
 
-portray as_html  --output_dir psite_temp --overwrite True 
+portray as_html  --output_dir psite_temp --overwrite True
 cp -rf psite_temp/* docs/
 cp -v  web_assets/extra.css docs/css/extra.css
 cp -v  web_assets/favicon.ico docs/img/favicon.ico
 
 cd docs/
-rm *.sh *.txt 
+rm *.sh *.txt
 cd -
 
 

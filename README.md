@@ -1,10 +1,19 @@
 # Helpo! Helpo!!
 
-## A place for aws & general python helpers
+## Overview
+
+A place for reusable aws & general python helpers. Function written over my career so the quality may vary. Going to be trying to get everything up to spec now though!
+
+## Objectives
+1. Make this a pip installable library
+2. Create an autodocumentation site on github pages so that code can be copied and pasted quickly (if pip install option unavailable)
+3. Use eyes3scribe with this project
+
+(Initial testing with Python3.8)
 
 
 ### Documentation available at:
-https://meatware.github.io/helpohelpo/index.html
+https://stablecaps.github.io/helpohelpo/index.html
 
 
 Run `./deploy_pdoc_documentation.sh` to update documentation with pdoc
