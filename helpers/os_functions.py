@@ -25,7 +25,7 @@ def rm_dir_if_exists(target):
         shutil.rmtree(target)
 
 
-def rm_fil_if_exists(target):
+def rm_file_if_exists(target):
     #  so we should check if file exists or not not before deleting them
     if os.path.exists(target):
         os.remove(target)

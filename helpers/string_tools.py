@@ -1,6 +1,8 @@
 
 def count_str_whitespace(mystr):
-    """Counts no of whitespace in string and returns an int."""
+    """
+    Counts number of whitespace chars in string and returns an int.
+    """
     count = 0
     for mychar in mystr:
         if mychar.isspace():

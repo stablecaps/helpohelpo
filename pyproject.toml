@@ -1,6 +1,6 @@
 [tool.portray]
 name = "helpers"
-version = "0.1"
+version = "0.2"
 description = "A library of python helpers"
 authors = "meatware happy@zoho.com"
 homepage = "https://github.com/meatware/helpohelpo"
