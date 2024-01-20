@@ -14,7 +14,7 @@ classifiers = [
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
 ]
-packages = [{include = "helpohelpo"}]
+packages = [{include = "helpo"}]
 
 [tool.poetry.dependencies]
 python = "^3.8"
