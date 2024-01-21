@@ -1,8 +1,8 @@
+import importlib
+import inspect
+import logging
 import os
 import sys
-import logging
-import inspect
-import importlib
 
 LOG = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO, stream=sys.stdout)
@@ -19,7 +19,6 @@ def _get_def_files(dirname):
 
 
 def _import_func_defs(graphdef_files):
-
     _modules = __import__("func_defs", globals(), locals(), graphdef_files, 0)
 
     _module_list = [

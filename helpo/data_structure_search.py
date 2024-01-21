@@ -1,7 +1,7 @@
-import json
-from pprint import pprint
-import sys
 import collections
+import json
+import sys
+from pprint import pprint
 
 
 def find_nested_key(my_json, find_key):
@@ -18,7 +18,7 @@ def find_nested_key(my_json, find_key):
 
 
 def nested_dic_update(base_dic, in_dic):
-    """ Recursively merge two nested dictionaries together."""
+    """Recursively merge two nested dictionaries together."""
     for kkey, vval in in_dic.items():
         if isinstance(vval, collections.Mapping):
             recursive_call = nested_dic_update(base_dic.get(kkey, {}), vval)

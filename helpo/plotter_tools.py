@@ -3,13 +3,14 @@
 import os as os
 import subprocess
 from collections import defaultdict
+from itertools import groupby, zip_longest
 from operator import itemgetter
-from itertools import zip_longest, groupby
+
 import matplotlib
 
 matplotlib.use("agg")
-import matplotlib.pyplot as plt
 import matplotlib.patheffects as pe
+import matplotlib.pyplot as plt
 from matplotlib import rcParams
 from pylab import figure
 
@@ -95,7 +96,7 @@ def nested_line_plot(
     **kwargs
 ):
     """
-       Multi-line function call. kwargs are dictionaries.
+    Multi-line function call. kwargs are dictionaries.
     """
 
     fig = figure()
@@ -182,7 +183,7 @@ def nested_line_plot(
 
 def list_duplicates(seq):
     """Uses default dict to find index numbers of repeated
-       elements in a sequence.
+    elements in a sequence.
     """
 
     tally = defaultdict(list)
@@ -210,7 +211,7 @@ def viz_anamoly_plot(
     col_date, residuals, residual_mad, norm_counts, normc_median, img_path, myrigidity
 ):
     """Visualise the identified anomaly. Plots normalised counts and
-       euclidian distances with anomaly highlighted in red.
+    euclidian distances with anomaly highlighted in red.
     """
 
     # get indexes of anomalous points & corresponding y-axis valuesA

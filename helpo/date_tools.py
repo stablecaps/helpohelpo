@@ -1,14 +1,12 @@
 """Helpers to manipulate times"""
 
-import os
-from datetime import datetime
-import arrow
-
-import sys
-import os
 import logging
-from datetime import datetime, timedelta
+import os
 import re
+import sys
+from datetime import datetime, timedelta
+
+import arrow
 from dateutil import tz
 from pydash import get
 

@@ -1,9 +1,9 @@
 """Python helpers module."""
 
-import os
-import sys
 import logging
+import os
 import shutil
+import sys
 
 LOG = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO, stream=sys.stdout)

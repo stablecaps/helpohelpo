@@ -1,11 +1,11 @@
 """General Boto3 convenience module."""
 
-import sys
 import logging
+import sys
+
 import boto3
 import botocore.exceptions
 from botocore.client import ClientError
-
 
 LOG = logging.getLogger(__name__)
 
@@ -26,7 +26,6 @@ def _add_ec2_tags(region, ec2_list):
         ec2_tag_status = {"ec2_tag_statuses": []}
         aws_sd_tag_val = helpo.calc_ndays_fwd(ndays=5)
         for ec2_instance in ec2_list:
-
             del_tag_status = try_except_status(
                 partial(
                     ec2_client.create_tags,
@@ -118,13 +117,14 @@ def upload_logs_s3(bucket_name, log_name):
 
 
 def tagapi_search_tags(client, token):
-
     try:
         response = client.get_resources(
             PaginationToken=token,
             TagFilters=[{"Key": "schedule_deletion"}],
             ResourcesPerPage=50,
-            ResourceTypeFilters=["elasticloadbalancing:loadbalancer",],
+            ResourceTypeFilters=[
+                "elasticloadbalancing:loadbalancer",
+            ],
         )
         return response
     except ClientError as err:

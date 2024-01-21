@@ -1,4 +1,3 @@
-
 def count_str_whitespace(mystr):
     """
     Counts number of whitespace chars in string and returns an int.
@@ -15,6 +14,7 @@ def unify_dic_key(key):
 
     return unifiedkey
 
+
 def stringify_values(inlist):
     """Converts all items in dictionary key into strings."""
 
@@ -29,9 +29,6 @@ def stringify_values(inlist):
         elif isinstance(item, str):
             string_items.append(item)
         else:
-            LOG.error(
-                "failed stringify item is %s, type: %s",
-                item,
-                type(item))
+            LOG.error("failed stringify item is %s, type: %s", item, type(item))
             raise Exception("failed stringify item is ", item, type(item))
     return string_items
