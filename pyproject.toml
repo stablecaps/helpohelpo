@@ -51,7 +51,7 @@ tag_format = "{version}"
 build_command = "poetry build"
 
 [tool.semantic_release.branches.master]
-match = "master"
+match = "master|feature/setup-semvar-pipeline-part7"
 prerelease_token = "rc"
 prerelease = false
 
