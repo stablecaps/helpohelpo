@@ -77,7 +77,7 @@ jobs:
         run: |
           git config user.name github-actions
           git config user.email github-actions@github.com
-          poetry run semantic-release semantic-release version
+          poetry run semantic-release version
           poetry run semantic-release publish
 
       - name: Publish package distributions to PyPI
@@ -89,3 +89,4 @@ jobs:
 # https://endjin.com/blog/2023/02/how-to-implement-continuous-deployment-of-python-packages-with-github-actions
 # https://ubc-mds.github.io/DSCI_524_collab-sw-dev/materials/lectures/06_lecture-cd-semver-and-docs.html
 # https://dev.to/mestrak/semantic-release-with-python-poetry-github-actions-20nn
+# https://github.com/Ezard/semantic-prs
