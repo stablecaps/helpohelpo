@@ -16,6 +16,7 @@ classifiers = [
 ]
 packages = [{include = "helpo"}]
 
+
 [tool.poetry.dependencies]
 python = "^3.8"
 
@@ -46,6 +47,8 @@ commit_parser = "angular"
 logging_use_named_masks = false
 major_on_zero = false
 tag_format = "v{version}"
+#
+build_command = "poetry build"
 
 [tool.semantic_release.branches.master]
 match = "master"
@@ -88,6 +91,6 @@ ignore_token_for_push = true
 [tool.semantic_release.remote.token]
 env = "GH_TOKEN"
 
-# [tool.semantic_release.publish]
-# dist_glob_patterns = ["dist/*"]
-# upload_to_vcs_release = true
+[tool.semantic_release.publish]
+dist_glob_patterns = ["dist/*"]
+upload_to_vcs_release = true
