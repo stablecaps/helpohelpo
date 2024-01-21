@@ -2,6 +2,31 @@
 
 
 
+## v0.3.0 (2024-01-21)
+
+### Feature
+
+* feat: dummy commit ([`0fe0d88`](https://github.com/stablecaps/helpohelpo/commit/0fe0d886deea7987c434c5c50e80074d403c0336))
+
+* feat: dummy commit ([`3b05591`](https://github.com/stablecaps/helpohelpo/commit/3b055914b1a1fda0fda532eb70807dce8d9c3366))
+
+### Fix
+
+* fix: rm debug branch from sem var ([`3606029`](https://github.com/stablecaps/helpohelpo/commit/3606029b1be2010bad561a05e7770e177e44d625))
+
+* fix: dummy commit ([`48e897c`](https://github.com/stablecaps/helpohelpo/commit/48e897c01019385618b69cddce0eb5085b5e09ab))
+
+### Performance
+
+* perf: dummy commit ([`bd41e95`](https://github.com/stablecaps/helpohelpo/commit/bd41e95f3f45bf019d3777a8ae6cf601dca8170f))
+
+### Unknown
+
+* Merge pull request #7 from stablecaps/feature/setup-semvar-pipeline-part7
+
+Feature/setup semvar pipeline part7 ([`0f76486`](https://github.com/stablecaps/helpohelpo/commit/0f76486484539dec2254a1ede5d5d5472a29297f))
+
+
 ## v0.2.0 (2024-01-21)
 
 ### Feature
