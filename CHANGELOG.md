@@ -2,6 +2,19 @@
 
 
 
+## v0.2.0 (2024-01-21)
+
+### Feature
+
+* feat: empty commit ([`25fe442`](https://github.com/stablecaps/helpohelpo/commit/25fe44295785bef020cd9e50ec878aa643c03760))
+
+### Unknown
+
+* Merge pull request #6 from stablecaps/feature/setup-semvar-pipeline-part6
+
+feat: empty commit ([`8508d4d`](https://github.com/stablecaps/helpohelpo/commit/8508d4dcd4cdea920ef348eb280a9e5bd008607c))
+
+
 ## v0.1.0 (2024-01-21)
 
 ### Build
