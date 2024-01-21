@@ -2,15 +2,65 @@
 
 
 
-## v0.2.0 (2024-01-20)
+## v0.1.0 (2024-01-21)
 
 ### Build
+
+* build: add PSR as dev dependency 03 ([`3248859`](https://github.com/stablecaps/helpohelpo/commit/32488596c92400cbd96f1c803ebc31c16b305234))
+
+* build: add PSR as dev dependency 02 ([`3aa962b`](https://github.com/stablecaps/helpohelpo/commit/3aa962b7bebebf4ae0228a3645f16d2ad6c118e8))
 
 * build: add PSR as dev dependency ([`381d038`](https://github.com/stablecaps/helpohelpo/commit/381d03825956102ae926d155d78f611d41e00261))
 
 * build: add auto semantic versioning ([`c8a1507`](https://github.com/stablecaps/helpohelpo/commit/c8a1507eb4516beaced93dd778d857e99fcd9800))
 
+### Ci
+
+* ci: add gha perms ([`7ee1f0f`](https://github.com/stablecaps/helpohelpo/commit/7ee1f0fa11fff9b74166eb57c0ad629f87f2e8c8))
+
+* ci: add semantic-prs ([`c3e53ca`](https://github.com/stablecaps/helpohelpo/commit/c3e53ca97c117ec51e4f2e2952ef8fe68e74fc13))
+
+### Feature
+
+* feat: setup pipeline to use semantic-versioning and pypi ([`9af94d2`](https://github.com/stablecaps/helpohelpo/commit/9af94d2c62991102a3caa36dc4f249461de00c99))
+
+### Fix
+
+* fix: bup version in files ([`f5a9663`](https://github.com/stablecaps/helpohelpo/commit/f5a9663949b1f97919611c0863eb66e7bdbb2c15))
+
+* fix: sem-ver publish tweaks 2 ([`ff86291`](https://github.com/stablecaps/helpohelpo/commit/ff862910745119cf41d3e5cdbe63d83f45ffcdf4))
+
+* fix: sem-ver publish tweaks 1 ([`c67d7fd`](https://github.com/stablecaps/helpohelpo/commit/c67d7fddf2d97e540539e853ef40f010eb79b7e1))
+
+* fix: pipeline 3 ([`5b8db40`](https://github.com/stablecaps/helpohelpo/commit/5b8db40294d365fff55bd71f7b42dabfde4856e0))
+
+* fix: pipeline 2 ([`05f0895`](https://github.com/stablecaps/helpohelpo/commit/05f08958b726c11ed134465080bf5e8a64b60f93))
+
+* fix: pipeline ([`93f68c9`](https://github.com/stablecaps/helpohelpo/commit/93f68c99d045bd892e8d79543b17243f738e0780))
+
+* fix: tweak semantic versioning ([`c42a7c4`](https://github.com/stablecaps/helpohelpo/commit/c42a7c421dae5d3dfd46c776fad081e9e15262eb))
+
 ### Unknown
+
+* Merge pull request #4 from stablecaps/feature/setup-semvar-pipeline-part4
+
+ci: add gha perms ([`43be442`](https://github.com/stablecaps/helpohelpo/commit/43be442e9182cf99210295c37cdb8712bc1ed749))
+
+* Merge pull request #3 from stablecaps/feature/setup-semvar-pipeline-part3
+
+fix: sem-ver publish tweaks 2 ([`4a0ae84`](https://github.com/stablecaps/helpohelpo/commit/4a0ae842fca5c0349e2cb666e0eb7aa63f6b220b))
+
+* Merge pull request #2 from stablecaps/feature/setup-semvar-pipeline-part2
+
+fix: sem-ver publish tweaks 1 ([`b81aa84`](https://github.com/stablecaps/helpohelpo/commit/b81aa843d8a4b45a6633f1591690a2125c8c3652))
+
+* Merge pull request #1 from stablecaps/feature/setup-semvar-pipeline
+
+Feature/setup semvar pipeline ([`72086ea`](https://github.com/stablecaps/helpohelpo/commit/72086ea39ce304f71aef9a01b4465553a8b16f9a))
+
+* fix pyproject.toml ([`bdfc063`](https://github.com/stablecaps/helpohelpo/commit/bdfc0639374628ad68744e8fa01e166a783b2da3))
+
+* feat - try to get semantic-versioning to work by resetting version to 0.0.0 ([`6c94ea3`](https://github.com/stablecaps/helpohelpo/commit/6c94ea3a4120662c6d7951225b3368accd357eb9))
 
 * start poetry setup - publish 08 ([`840bfa0`](https://github.com/stablecaps/helpohelpo/commit/840bfa0ef372b878745c06284ad60046480f63b9))
 
