@@ -22,6 +22,8 @@
 
 ### Feature
 
+* feat: change version number and name for semver ([`72246f2`](https://github.com/stablecaps/helpohelpo/commit/72246f266c0eb82069e8f6f960e4fe4595547a26))
+
 * feat: setup pipeline to use semantic-versioning and pypi ([`9af94d2`](https://github.com/stablecaps/helpohelpo/commit/9af94d2c62991102a3caa36dc4f249461de00c99))
 
 ### Fix
@@ -41,6 +43,10 @@
 * fix: tweak semantic versioning ([`c42a7c4`](https://github.com/stablecaps/helpohelpo/commit/c42a7c421dae5d3dfd46c776fad081e9e15262eb))
 
 ### Unknown
+
+* Merge pull request #5 from stablecaps/feature/setup-semvar-pipeline-part5
+
+feat: change version number and name for semver ([`0aaf6a7`](https://github.com/stablecaps/helpohelpo/commit/0aaf6a77b6a8128f61a75c5df3804de262e5f651))
 
 * Merge pull request #4 from stablecaps/feature/setup-semvar-pipeline-part4
 
