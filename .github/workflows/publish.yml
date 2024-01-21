@@ -37,6 +37,7 @@ jobs:
       run: |
         poetry run pytest -v --cov=helpo --cov-report xml tests/
 
+    # https://github.com/MishaKav/pytest-coverage-comment
     - name: Pytest coverage comment
       uses: MishaKav/pytest-coverage-comment@main
       with:
