@@ -18,12 +18,18 @@ packages = [{include = "helpo"}]
 
 
 [tool.poetry.dependencies]
-python = "^3.8"
+python = "^3.9"
 
 
 # [tool.poetry.group.test.dependencies]
 # pytest = "^7.2.2"
 # requests-mock = "^1.10.0"
+python-semantic-release = "^8.7.0"
+
+[tool.poetry.group.dev.dependencies]
+pre-commit = "^3.6.0"
+black = "^23.12.1"
+pytest = "^7.4.4"
 python-semantic-release = "^8.7.0"
 
 [build-system]
