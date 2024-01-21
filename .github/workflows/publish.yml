@@ -4,7 +4,6 @@
 on:
     push:
       branches:
-        - feature/setup-semvar-pipeline
         - master
     pull_request:
       branches: [ main ]
@@ -36,7 +35,13 @@ jobs:
 
     - name: Run tests
       run: |
-        poetry run pytest
+        poetry run pytest -v --cov=helpo --cov-report xml tests/
+
+    - name: Pytest coverage comment
+      uses: MishaKav/pytest-coverage-comment@main
+      with:
+        pytest-xml-coverage-path: ./coverage.xml
+
 
   publish:
     needs: ['build-test']
