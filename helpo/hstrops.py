@@ -2,39 +2,73 @@
 
 import logging
 
-from rich import print as rprint
+from rich import print as print
 
 LOG = logging.getLogger(__name__)
 
 
 def get_lines_between_tags(filetext, start_tag="```{toctree}", end_tag="```"):
+    """
+    Extracts lines of text between specified start and end tags.
+
+    Args:
+        filetext (str): The text to search within.
+        start_tag (str, optional): The tag marking the start of the text to extract. Defaults to "```{toctree}".
+        end_tag (str, optional): The tag marking the end of the text to extract. Defaults to "```".
+
+    Returns:
+        list: A list of lines between the start and end tags.
+
+    Example:
+        >>> text = "Hello\n```{toctree}\nWorld\n```\nGoodbye"
+        >>> get_lines_between_tags(text)
+        ['```{toctree}', 'World', '```']
+    """
+
     line_holder = []
     inRecordingMode = False
+    tags_found = 0
     for line in filetext.split("\n"):
-        # line_stripped = line.strip()
-        # TODO: this not in inRecordingMode is not easy to read
         if not inRecordingMode:
             if start_tag in line:
-                rprint("TRUE: found toctree")
+                print("TRUE: found toctree")
                 inRecordingMode = True
+                tags_found += 1
                 line_holder.append(line)
         elif end_tag in line:
             inRecordingMode = False
+            tags_found += 1
             line_holder.append(line)
         else:
             line_holder.append(line)
 
+    if tags_found != 2:
+        return []
     return line_holder
 
 
 def get_lines_between_tag_and_blank_line(filetext, start_tag="```{toctree}"):
+    """
+    Extracts lines of text between a specified start tag and the next blank line.
+
+    Args:
+        filetext (str): The text to search within.
+        start_tag (str, optional): The tag marking the start of the text to extract. Defaults to "```{toctree}".
+
+    Returns:
+        list: A list of lines between the start tag and the next blank line.
+
+    Example:
+        >>> text = "Hello\n```{toctree}\nWorld\n\nGoodbye"
+        >>> get_lines_between_tag_and_blank_line(text)
+        ['```{toctree}', 'World', '']
+    """
     line_holder = []
     inRecordingMode = False
     for line in filetext.split("\n"):
-        # line_stripped = line.strip()
         if not inRecordingMode:
             if start_tag in line:
-                rprint("TRUE: found toctree")
+                print("TRUE: found toctree")
                 inRecordingMode = True
                 line_holder.append(line)
         elif len(line) == 0:
@@ -47,176 +81,242 @@ def get_lines_between_tag_and_blank_line(filetext, start_tag="```{toctree}"):
 
 
 def get_multiblocks_between_tags(filetext, start_tag=":::", end_tag=":::"):
+    """
+    Extracts blocks of text between specified start and end tags.
+
+    Args:
+        filetext (str): The text to search within.
+        start_tag (str, optional): The tag marking the start of the text to extract. Defaults to ":::".
+        end_tag (str, optional): The tag marking the end of the text to extract. Defaults to ":::".
+
+    Returns:
+        list: A list of blocks (each block is a list of lines) between the start and end tags.
+
+    Example:
+        >>> text = "Hello\n:::\nWorld\n:::\nGoodbye"
+        >>> get_multiblocks_between_tags(text)
+        [[':::', 'World', ':::']]
+    """
     block_holder = []
     inRecordingMode = False
     for line in filetext.split("\n"):
-        # rprint("line", line)
-        # line_stripped = line.strip()
         if not inRecordingMode:
             if start_tag in line:
-                # rprint("TRUE: found start_tag")
                 inRecordingMode = True
                 line_holder = []
                 line_holder.append(line)
         elif end_tag in line:
-            # rprint("TRUE: found end_tag")
             inRecordingMode = False
             line_holder.append(line)
             block_holder.append(line_holder)
-        # elif inRecordingMode:
         else:
             line_holder.append(line)
-
-    # rprint("block_holder", block_holder)
-    # sys.exit(42)
     return block_holder
 
 
-def norm_key(mystr):
-    return mystr.lower().replace(" ", "").replace("-", "").replace("_", "").strip()
-
-
-def rreplace(mystr, match_str, replace_str, times):
-    li = mystr.rsplit(match_str, times)
-    return replace_str.join(li)
-
-
-# TODO: find out what other functions can be generalised to simplify things
-# TODO: move to collections helpers
-def clean_list_via_rm_patts(input_list, rm_patt, rm_empty_lines=True):
+def norm_key(instr):
     """
-    Cleans the input list by rming lines that contain any of the rm_patts in the rm list.
+    Normalizes a string by converting it to lowercase and removing spaces, hyphens, and underscores.
 
     Args:
-        input_list (list): The input list to clean.
-        rm_patt (list): The list of rm_patts to rmude.
-        rm_empty_lines (bool): Whether to rm empty lines.
+        instr (str): The string to normalize.
 
     Returns:
-        list: The clean list.
+        str: The normalized string.
+
+    Example:
+        >>> norm_key("Hello_World-Test")
+        'helloworldtest'
+    """
+    return instr.lower().replace(" ", "").replace("-", "").replace("_", "").strip()
+
+
+def rreplace(instr, match_str, replace_str, times):
+    """
+    Replaces the last occurrences of a substring in a string with another substring.
+
+    Args:
+        instr (str): The string to modify.
+        match_str (str): The substring to replace.
+        replace_str (str): The substring to replace with.
+        times (int): The number of occurrences to replace.
+
+    Returns:
+        str: The modified string.
+
+    Example:
+        >>> rreplace("Hello, World, Hello, World", "World", "Everyone", 1)
+        'Hello, World, Hello, Everyone'
+    """
+    rsplit_li = instr.rsplit(match_str, times)
+    return replace_str.join(rsplit_li)
+
+
+def clean_list_via_rm_patts(input_list, rm_patts, rm_empty_instrs=True):
+    """
+    Cleans a list by removing elements that are empty or contain any of the specified patterns.
+
+    Args:
+        input_list (list): The list to be cleaned.
+        rm_patts (list): The patterns to remove.
+        rm_empty_instrs (bool, optional): Whether to remove empty strings. Defaults to True.
+
+    Returns:
+        list: The cleaned list.
+
+    Example:
+        >>> clean_list_via_rm_patts(["Hello", "World", "", "Hello, World"], ["World"])
+        ['Hello', '']
     """
     clean_list = []
-    for line in input_list:
-        line_is_empty = len(line.strip()) == 0
-        line_contains_rm_patts = any(rm_patt in line for rm_patt in rm_patt)
+    for instr in input_list:
+        instr_is_empty = len(instr.strip()) == 0
+        instr_contains_rm_patts = any(rm_patt in instr for rm_patt in rm_patts)
 
-        if line_is_empty and rm_empty_lines:
+        if instr_is_empty and rm_empty_instrs:
             continue
-        if line_contains_rm_patts:
+        if instr_contains_rm_patts:
             continue
 
-        clean_list.append(line)
-
+        clean_list.append(instr)
     return clean_list
 
 
-def does_str_contain_pattern(instr, input_patt_li):
+def does_str_contain_pattern(instr, match_patts):
     """
-    Checks if a string contains any pattern from a list of patterns.
+    Checks if a string contains any of the specified patterns.
 
     Args:
-        instr (str): The input string to check.
-        input_patt_li (list): The list of patterns to search for.
+        instr (str): The string to check.
+        match_patts (list): The patterns to check for.
 
     Returns:
-        bool: True if any pattern is found in the input string, False otherwise.
+        bool: True if the string contains any of the patterns, False otherwise.
 
     Example:
-        contains_pattern = does_str_contain_pattern("Hello, world!", ["world", "!"])
+        >>> does_str_contain_pattern("Hello, World", ["World"])
+        True
     """
-
     instr_clean = instr.strip()
-    for input_patt in input_patt_li:
+    for input_patt in match_patts:
         if input_patt.strip() in instr_clean:
             return True
     return False
 
 
-def does_str_start_with_pattern(instr, input_patt_li):
+def does_str_start_with_pattern(instr, match_patts):
     """
-    Checks if a string starts with any pattern from a list of patterns.
+    Checks if a string starts with any of the specified patterns.
 
     Args:
-        instr (str): The input string to check.
-        input_patt_li (list): The list of patterns to search for.
+        instr (str): The string to check.
+        match_patts (list): The patterns to check for.
 
     Returns:
-        bool: True if the input string starts with any pattern, False otherwise.
+        bool: True if the string starts with any of the patterns, False otherwise.
 
     Example:
-        starts_with_pattern = does_str_start_with_pattern("Hello, world!", ["Hell", "world"])
+        >>> does_str_start_with_pattern("Hello, World", ["Hello"])
+        True
     """
-    for idx in range(len(input_patt_li)):
-        clean_pattern = input_patt_li[idx].strip()
-        input_patt_li[idx] = clean_pattern
+    for idx in range(len(match_patts)):
+        clean_patt = match_patts[idx].strip()
+        match_patts[idx] = clean_patt
 
     instr_clean = instr.strip()
-    for pattern in input_patt_li:
-        if instr_clean.startswith(pattern):
+    for patt in match_patts:
+        if instr_clean.startswith(patt):
             return True
     return False
 
 
 # TODO: use this function more
 def multiline_str_2list(multiline_str, delimiter="\n"):
+    """
+    Converts a multiline string into a list of strings, using a specified delimiter.
+
+    Args:
+        multiline_str (str): The multiline string to convert.
+        delimiter (str, optional): The delimiter to split the string by. Defaults to "\n".
+
+    Returns:
+        list: The list of strings.
+
+    Example:
+        >>> multiline_str_2list("Hello\nWorld")
+        ['Hello', 'World']
+    """
     mstr = multiline_str.split(delimiter)
-    mstr_clean = [elem.strip() for elem in mstr if elem.strip() != ""]
+    mstr_clean = [line.strip() for line in mstr if line.strip() != ""]
     return mstr_clean
 
 
-def rm_lines_starting_with(multiline_str, rm_patt_list):
+def rm_lines_starting_with(multiline_str, rm_patts):
     """
-    Removes lines from a multiline string that start with any pattern from the list.
+    Removes lines from a multiline string that start with any of the specified patterns.
 
     Args:
         multiline_str (str): The multiline string to process.
-        rm_patt_list (list): The list of patterns to check for.
+        rm_patts (list): The patterns to check for at the start of each line.
 
     Returns:
-        str: The processed multiline string.
+        str: The processed string with matching lines removed.
 
     Example:
-        >>> rm_lines_starting_with("Hello,\nworld!", ["Hell", "world"])
-        "world!"
+        >>> rm_lines_starting_with("Hello\nWorld", ["Hello"])
+        'World'
     """
-
-    multiline_str_list = multiline_str_2list(
-        multiline_str=multiline_str, delimiter="\n"
-    )
-    print("multiline_str_list", multiline_str_list)
-    filtered_multiline_str_list = [
-        line
-        for line in multiline_str_list
-        if not does_str_start_with_pattern(line, rm_patt_list)
+    lines = multiline_str_2list(multiline_str=multiline_str, delimiter="\n")
+    print("lines", lines)
+    filtered_lines = [
+        line for line in lines if not does_str_start_with_pattern(line, rm_patts)
     ]
 
-    print("filtered_multiline_str_list", filtered_multiline_str_list)
+    print("filtered_lines", filtered_lines)
 
-    clean_outstr = "\n".join(filtered_multiline_str_list)
-    print("clean_outstr", clean_outstr)
+    multiline_outstr = "\n".join(filtered_lines)
+    print("multiline_outstr", multiline_outstr)
 
-    # multiline_str_list_len = len(multiline_str_list)
-    # idx = 0
-    # for line in multiline_str_list:
-    #     if does_str_start_with_pattern(line, rm_patt_list):
-    #         if idx == multiline_str_list_len - 1:
-    #             out_str += f"{line}"
-    #         else:
-    #             out_str += f"{line}\n"
-    #     idx += 1
-
-    return clean_outstr
+    return multiline_outstr
 
 
-def clean_str_pline(instr, rm_patt):
-    for rmpatt in rm_patt:
-        instr = instr.replace(rmpatt, "")
+def clean_str_pline(instr, rm_patts):
+    """
+    Cleans a string by removing specified patterns and leading/trailing whitespace.
+
+    Args:
+        instr (str): The string to clean.
+        rm_patts (list): The patterns to remove.
+
+    Returns:
+        str: The cleaned string.
+
+    Example:
+        >>> clean_str_pline("Hello, World", ["World"])
+        'Hello, '
+    """
+    for patt in rm_patts:
+        instr = instr.replace(patt, "")
 
     return instr.strip()
 
 
 def replace_str_pline(instr, sub_tups):
-    # use pipleine pattern [(targ1, rep1), (targ2, rep2), ..]
+    """
+    Replaces multiple substrings in a string with specified replacements.
+
+    Args:
+        instr (str): The string to modify.
+        sub_tups (list): A list of tuples, each containing a target substring and its replacement.
+            e.g. [("Hello", "Goodbye"), ("World", "Everyone")]
+
+    Returns:
+        str: The modified string.
+
+    Example:
+        >>> replace_str_pline("Hello, World", [("Hello", "Goodbye"), ("World", "Everyone")])
+        'Goodbye, Everyone'
+    """
     for sub in sub_tups:
         instr = instr.replace(sub[0], sub[1])
 
@@ -224,19 +324,23 @@ def replace_str_pline(instr, sub_tups):
 
 
 # TODO: remove all instances of this function - use replace_str_pline instead
-def str_multi_replace(instr, rm_patt_list, replace_str):
+def str_multi_replace(instr, rm_patts, replace_str):
     """
-    Replace multiple substrings in the input string with a replacement string.
+    Replaces multiple substrings in a string with a specified replacement.
 
     Args:
-        instr (str): The string to perform replacements on.
-        rm_patt_list (list): A list of substrings to be replaced.
-        replace_str (str, optional): The string to replace the substrings with.
+        instr (str): The string to modify.
+        rm_patts (list): A list of target substrings to replace.
+        replace_str (str): The replacement string.
 
     Returns:
-        str: The input string with all specified substrings replaced with the replacement string.
+        str: The modified string.
+
+    Example:
+        >>> str_multi_replace("Hello, World", ["Hello", "World"], "Everyone")
+        'Everyone, Everyone'
     """
-    for patt in rm_patt_list:
+    for patt in rm_patts:
         patt_clean = patt.replace("*.", ".")
         print("patt_clean", patt_clean)
         instr = instr.replace(patt_clean, replace_str)

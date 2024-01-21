@@ -1,0 +1,12 @@
+[tests]
+framework = "Pytest"
+utility_library = "None"
+plan_instructions = """
+When multiple tests are present fior a function use a pytest class with each test seperated into a different method.
+Ensure that assertions have a descriptive error message.
+Ensure code is tested for the correct input and output.
+Ensure code is tested for the incorrect input and output.
+Ensure code is tested for the edge cases.
+"""
+use_mocks = false
+num_desired_tests = 8
