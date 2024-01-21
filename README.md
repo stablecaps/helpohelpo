@@ -9,7 +9,7 @@ A place for reusable aws & general python helpers. Function written over my care
 2. Create an autodocumentation site on github pages so that code can be copied and pasted quickly (if pip install option unavailable)
 3. Use eyes3scribe with this project
 
-(Initial testing with Python3.8)
+(Initial testing with Python3.9)
 
 
 ### Documentation available at:

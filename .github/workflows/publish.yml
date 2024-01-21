@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-22.04
     strategy:
       matrix:
-        python-version: ["3.8"]
+        python-version: ["3.9"]
     steps:
     - name: Checkout
       uses: actions/checkout@v3
@@ -34,14 +34,9 @@ jobs:
       run: |
         poetry install
 
-    # - name: Run tests
-    #   run: |
-    #     poetry run pytest
-
-
-    # - uses: actions/upload-artifact@v3
-    #   with:
-    #     path: ./dist
+    - name: Run tests
+      run: |
+        poetry run pytest
 
   publish:
     needs: ['build-test']
@@ -50,7 +45,7 @@ jobs:
     runs-on: ubuntu-22.04
     strategy:
       matrix:
-        python-version: ["3.8"]
+        python-version: ["3.9"]
     permissions:
       # IMPORTANT: this permission is mandatory for trusted publishing
       id-token: write
@@ -83,9 +78,7 @@ jobs:
 
       - name: Publish package distributions to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
-        # with:
-        #   packages-dir: artifact/
-##
+
 
 # https://endjin.com/blog/2023/02/how-to-implement-continuous-deployment-of-python-packages-with-github-actions
 # https://ubc-mds.github.io/DSCI_524_collab-sw-dev/materials/lectures/06_lecture-cd-semver-and-docs.html
