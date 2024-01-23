@@ -31,7 +31,6 @@ def _import_func_defs(graphdef_files):
 
     func_dict = {}
     for module_name, _ in _module_list:
-        # print("*", module_name, val)
         mymodule = importlib.import_module("func_defs." + module_name)
         LOG.info(" module Loaded %s", mymodule.__name__)
 
