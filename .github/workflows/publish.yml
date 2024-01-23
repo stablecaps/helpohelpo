@@ -18,6 +18,7 @@ jobs:
     permissions:
       issues: write
       pull-requests: write
+      contents: write
     steps:
     - name: Checkout
       uses: actions/checkout@v3
@@ -48,7 +49,7 @@ jobs:
         export DEEPSOURCE_DSN=$DEEPSOURCE_DSN_SECRET
         ./bin/deepsource report --analyzer test-coverage --key python --value-file "$(pwd)/coverage.xml"
 
-
+    # if: github.event_name != 'push' && github.ref == 'refs/heads/master'
     # https://github.com/MishaKav/pytest-coverage-comment
     - name: Pytest coverage comment
       uses: MishaKav/pytest-coverage-comment@main
