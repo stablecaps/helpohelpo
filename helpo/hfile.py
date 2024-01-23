@@ -5,7 +5,7 @@ import shutil
 from os.path import relpath
 
 from dotmap import DotMap
-from rich import print as print
+from rich import print
 from ruamel.yaml import YAML
 
 import helpo.hsubprocess as hsubp
@@ -83,7 +83,6 @@ def read_file_2list(filepath):
 
 def delfiles_not_in_list(folder, exclude_list):
     """Delete all files in folder apart from those in exclude list."""
-
     ### prepare delete list
     del_files = os.listdir(folder)
     # TODO: this is repeated in rm_col_names (generalise)
@@ -101,7 +100,6 @@ def delfiles_not_in_list(folder, exclude_list):
                 os.unlink(file_path)
         except Exception as err:
             print(err)
-    return
 
 
 def rmfile_if_exists(target):

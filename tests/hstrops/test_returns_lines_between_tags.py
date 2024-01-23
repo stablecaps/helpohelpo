@@ -1,5 +1,3 @@
-import pytest
-
 from helpo.hstrops import get_lines_between_tags
 
 
