@@ -54,6 +54,8 @@ jobs:
       uses: MishaKav/pytest-coverage-comment@main
       with:
         pytest-xml-coverage-path: ./coverage.xml
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 
   publish:
