@@ -1,6 +1,6 @@
 """Functions to assist in plotting images."""
 
-import os as os
+import os
 import subprocess
 from collections import defaultdict
 from itertools import groupby, zip_longest
@@ -46,13 +46,11 @@ def image_pager(img_list, horiz_n, vert_n, path_str, fin_prefix):
         out_img_name = path_str + fin_prefix + "_page_" + str(idx) + ".png"
 
         concat_images(file_li=img_name_li, outname=out_img_name, mode="vert")
-    return None
 
 
 def grouper(mylist, subli_size):
     """Collect data into fixed-length chunks or blocks
     grouper('ABCDEFG', 3, 'x') --> ABC DEF Gxx"""
-
     args = [iter(mylist)] * subli_size
 
     return zip_longest(*args, fillvalue=None)
@@ -60,7 +58,6 @@ def grouper(mylist, subli_size):
 
 def concat_images(file_li, outname, mode="horiz", del_input=True):
     """Pastes inages into horizontal rows or vertical columns."""
-
     if mode == "horiz":
         append = "+append"
     elif mode == "vert":
@@ -78,8 +75,6 @@ def concat_images(file_li, outname, mode="horiz", del_input=True):
         for file_name in file_li:
             os.remove(file_name)
 
-    return
-
 
 def nested_line_plot(
     x_data=None,
@@ -95,10 +90,7 @@ def nested_line_plot(
     main_label=None,
     **kwargs
 ):
-    """
-    Multi-line function call. kwargs are dictionaries.
-    """
-
+    """Multi-line function call. kwargs are dictionaries."""
     fig = figure()
     plt.xticks(rotation=15)
     plt.title(title_var)
@@ -178,14 +170,11 @@ def nested_line_plot(
     plt.cla()
     plt.close(fig)
 
-    return
-
 
 def list_duplicates(seq):
     """Uses default dict to find index numbers of repeated
     elements in a sequence.
     """
-
     tally = defaultdict(list)
     for idx, item in enumerate(seq):
         tally[str(item)].append(idx)
@@ -199,7 +188,6 @@ def split_list_on_missing_elem(in_list):
     out: [[1, 2, 3, 4], [6, 7, 8, 9, 10]]
     https://stackoverflow.com/questions/3149440/python-splitting-list-based-on-missing-numbers-in-a-sequence
     """
-
     idx_holder = []
     for k, g in groupby(enumerate(in_list), lambda i: i[0] - i[1]):
         subli = list(map(itemgetter(1), g))
@@ -213,7 +201,6 @@ def viz_anamoly_plot(
     """Visualise the identified anomaly. Plots normalised counts and
     euclidian distances with anomaly highlighted in red.
     """
-
     # get indexes of anomalous points & corresponding y-axis valuesA
     anomalous_truth_mask = residuals["trig_anom"].tolist()
     anomalous_times = residuals.index.tolist()
@@ -324,12 +311,9 @@ def viz_anamoly_plot(
     plt.cla()
     plt.close(figx)
 
-    return
-
 
 def plot_err_bar_graphs(graph_data_dic):
     """Plot bar graphs with error bars."""
-
     y_vals_keys = ["median_li", "mean_li"]
 
     for y_key in y_vals_keys:

@@ -4,7 +4,6 @@ import logging
 import sys
 
 import boto3
-import botocore.exceptions
 from botocore.client import ClientError
 
 LOG = logging.getLogger(__name__)
@@ -12,14 +11,12 @@ LOG = logging.getLogger(__name__)
 
 def boto_session(region):
     """Initialise boto3 session."""
-
     session = boto3.Session(region_name=region)
     return session
 
 
 def _add_ec2_tags(region, ec2_list):
     """Add schedule_deletion tag to ec2 instances."""
-
     ec2_client = boto3.client("ec2", region_name=region)
 
     if len(ec2_list) > 0:
@@ -45,7 +42,6 @@ def _add_ec2_tags(region, ec2_list):
 
 def search_ec2_instances(ec2_client, filter_data):
     """search aws region for ec2 instances to delete."""
-
     try:
         response = ec2_client.describe_instances(Filters=filter_data)
         return response
@@ -57,7 +53,6 @@ def search_ec2_instances(ec2_client, filter_data):
 
 def terminate_instance(instance_id, region_name):
     """Terminates ec2 instance by id."""
-
     ec2 = boto3.resource("ec2", region_name=region_name)
 
     try:
@@ -66,15 +61,13 @@ def terminate_instance(instance_id, region_name):
         LOG.warning("%s", str(err))
         if err.response["Error"]["Code"] == "OperationNotPermitted":
             return "<!here|here> Warning! Modify termination protection: " + instance_id
-        else:
-            return "Uncaught error occured on termination: " + instance_id
+        return "Uncaught error occured on termination: " + instance_id
 
     return "Successfully terminated"
 
 
 def shutdown_instance(instance_id, region_name):
     """Shutdown ec2 instance by id."""
-
     bo3_int = boto3.Session(region_name=region_name)
     ec2 = bo3_int.resource("ec2", region_name=region_name)
 
@@ -89,7 +82,6 @@ def shutdown_instance(instance_id, region_name):
 
 def check_bucket_exists(bucket_name):
     """Sanity check whether s3 bucket exists."""
-
     s3_client = boto3.resource("s3")
 
     try:
@@ -101,7 +93,6 @@ def check_bucket_exists(bucket_name):
 
 def upload_logs_s3(bucket_name, log_name):
     """Upload log data to s3 bucket."""
-
     data = open(log_name, "rb")
     s3_client = boto3.resource("s3")
     try:
@@ -135,7 +126,6 @@ def convert_http_status(status):
     """Converts HTTP 200 to OK or dispays error message
     from def try_except_status.
     """
-
     if status == 200:
         return ": *OK*"
 
@@ -146,7 +136,6 @@ def try_except_status(bo3_client_method, fail_str):
     """Takes a partially applied fuction passed to it
     so that it catches status codes/errors in a generalised way
     """
-
     try:
         get_status = bo3_client_method
         status = get_status()["ResponseMetadata"]["HTTPStatusCode"]
