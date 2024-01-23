@@ -34,7 +34,10 @@ jobs:
 
     - name: Install dependencies
       run: |
-        curl https://deepsource.io/cli | sh
+        # curl https://deepsource.io/cli | sh
+        curl https://deepsource.io/cli > deepsource.sh \
+          && chmod u+x deepsource.sh \
+          && ./deepsource.sh
         poetry install
 
     - name: Run tests
