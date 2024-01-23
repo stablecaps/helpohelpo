@@ -1,3 +1,4 @@
+import json
 import logging
 import os
 import pathlib
@@ -20,29 +21,8 @@ yaml = YAML(typ="safe")
 ###
 
 
-def load_yaml_file2dotmap(filename):
-    with open(filename, "r", encoding="iso-8859-1") as yaml_path:
-        yaml_data = yaml.load(yaml_path)
-        LOG.info("yaml_data: %s", yaml_data)
-    return DotMap(yaml_data)
-
-
-def dump_yaml_file(
-    filename,
-    yaml_string,
-):
-    yaml_data = yaml.load(yaml_string)
-    with open(filename, "w") as yaml_path:
-        print("Writing yaml data to file name", filename)
-        LOG.debug("yaml_data: %s", yaml_data)
-        yaml.dump(yaml_data, yaml_path)
-
-
-def write_dict_2yaml_file(
-    filename,
-    yaml_dict,
-):
-    with open(filename, "w") as yaml_path:
+def write_dict_2yaml_file(filename, yaml_dict, mode="w"):
+    with open(filename, mode) as yaml_path:
         print("Writing yaml data to file name", filename)
         LOG.debug("yaml_dict: %s", yaml_dict)
         yaml.dump(yaml_dict, yaml_path)
@@ -61,19 +41,36 @@ def write_list_2file(filepath, strlist, mode="w"):
             outfile.write(line + "\n")
 
 
-def read_file_2string(filepath):
-    with open(filepath, "r") as infile:
+###
+def read_file_2string(filepath, mode="r"):
+    with open(filepath, mode) as infile:
         file_text = infile.read()
     return file_text
 
 
-def read_file_2list(filepath):
+def read_file_2list(filepath, mode="r"):
     mylist = []
-    with open(filepath, "r") as infile:
+    with open(filepath, mode) as infile:
         for line in infile.read().split("\n"):
             if len(line) > 0:
                 mylist.append(line)
     return mylist
+
+
+###
+def load_yaml_file2dotmap(filename, mode="r"):
+    with open(filename, mode, encoding="iso-8859-1") as yaml_path:
+        yaml_data = yaml.load(yaml_path)
+        LOG.info("yaml_data: %s", yaml_data)
+    return DotMap(yaml_data)
+
+
+def dump_yaml_file(filename, yaml_string, mode="w"):
+    yaml_data = yaml.load(yaml_string)
+    with open(filename, mode) as yaml_path:
+        print("Writing yaml data to file name", filename)
+        LOG.debug("yaml_data: %s", yaml_data)
+        yaml.dump(yaml_data, yaml_path)
 
 
 ####################################################################
