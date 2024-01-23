@@ -1,6 +1,8 @@
+import logging
 import os
 import sys
-import logging
+
+LOG = logging.getLogger(__name__)
 
 
 def check_env_vars():

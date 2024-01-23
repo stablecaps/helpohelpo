@@ -15,6 +15,10 @@ LOG = logging.getLogger(__name__)
 
 yaml = YAML(typ="safe")
 
+####################################################################
+### File read & write Ops
+###
+
 
 def load_yaml_file2dotmap(filename):
     with open(filename, "r", encoding="iso-8859-1") as yaml_path:
@@ -44,6 +48,19 @@ def write_dict_2yaml_file(
         yaml.dump(yaml_dict, yaml_path)
 
 
+def write_string_2file(filepath, file_text, mode="w"):
+    with open(filepath, mode) as outfile:
+        LOG.debug("Writing file: %s", filepath)
+        outfile.write(file_text)
+
+
+def write_list_2file(filepath, strlist, mode="w"):
+    with open(filepath, mode) as outfile:
+        LOG.debug("Writing file: %s", filepath)
+        for line in strlist:
+            outfile.write(line + "\n")
+
+
 def read_file_2string(filepath):
     with open(filepath, "r") as infile:
         file_text = infile.read()
@@ -59,22 +76,45 @@ def read_file_2list(filepath):
     return mylist
 
 
-def write_string_2file(filepath, file_text, mode="w"):
-    with open(filepath, mode) as outfile:
-        LOG.debug("Writing file: %s", filepath)
-        outfile.write(file_text)
+####################################################################
+### Files & Directory Ops
+###
 
 
-def write_list_2file(filepath, strlist, mode="w"):
-    with open(filepath, mode) as outfile:
-        LOG.debug("Writing file: %s", filepath)
-        for line in strlist:
-            outfile.write(line + "\n")
+def delfiles_not_in_list(folder, exclude_list):
+    """Delete all files in folder apart from those in exclude list."""
+
+    ### prepare delete list
+    del_files = os.listdir(folder)
+    # TODO: this is repeated in rm_col_names (generalise)
+    for excl_str in exclude_list:
+        try:
+            del_files.remove(excl_str)
+        except (ValueError, KeyError):
+            pass
+
+    ### delete files
+    for rmfile in del_files:
+        file_path = os.path.join(folder, rmfile)
+        try:
+            if os.path.isfile(file_path):
+                os.unlink(file_path)
+        except Exception as err:
+            print(err)
+    return
+
+
+def rmfile_if_exists(target):
+    #  so we should check if file exists or not not before deleting them
+    if os.path.exists(target):
+        os.remove(target)
+        return True
+
+    LOG.warning("Delete file attempt failed for %s", target)
+    return False
 
 
 def rmdir_if_exists(target):
-    ...
-
     if os.path.exists(target):
         print("Deleting Directory:", target)
         shutil.rmtree(target)
@@ -112,6 +152,9 @@ def move_files_and_dirs(source, target):
     LOG.info("Moved: %s --> %s", source, target)
 
 
+####################################################################
+### Search & Filter Ops
+###
 def list_matching_files_recursively(search_path="./", myglob="*.sh"):
     mypath = pathlib.Path(search_path)
 
@@ -173,14 +216,6 @@ def find_files_with_grep_patt(search_path, file_glob, txt_pattern):
     return resp_list
 
 
-def flatten_list(nested_list):
-    # TODO: move into collection helpers
-    flat_list = []
-    for sublist in nested_list:
-        flat_list.extend(sublist)
-    return flat_list
-
-
 def get_relative_path_between_files(end_filepath, start_filepath):
     # TODO: test this to make sure it handles edge cases properly
     # TODO: refactor this to be less ugly
@@ -192,5 +227,4 @@ def get_relative_path_between_files(end_filepath, start_filepath):
     if start2child_relpath == ".":
         start2child_relpath = ""
 
-    return start2child_relpath
     return start2child_relpath

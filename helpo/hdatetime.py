@@ -1,18 +1,21 @@
 """Helpers to manipulate times"""
 
-import os
-from datetime import datetime
-import arrow
-
-import sys
-import os
 import logging
-from datetime import datetime, timedelta
+import os
 import re
+import sys
+from datetime import datetime, timedelta
+
+import arrow
 from dateutil import tz
 from pydash import get
 
 LOG = logging.getLogger(__name__)
+
+
+####################################################################
+### Datetime primitives
+###
 
 
 def get_unix_ts_unit(unix_ts):
@@ -22,6 +25,8 @@ def get_unix_ts_unit(unix_ts):
         unit = "ms"
     elif len(unix_ts) == 10:
         unit = "s"
+    else:
+        raise ValueError("Unix timestamp is not in seconds or milliseconds")
     return unit
 
 
@@ -31,10 +36,65 @@ def convert_unix_time(unix_time):
     return datetime.fromtimestamp(unix_time / 1000, tz=tz.tzutc())
 
 
+def unixtime_to_datestring(unix_time, fmt_str="%Y-%m-%d %H:%M:%S"):
+    """Convert unix timestamp into a string."""
+
+    return datetime.fromtimestamp(unix_time).strftime(fmt_str)
+
+
+def unixtime_to_datetime(unix_time):
+    """Convert unix timestamp into a string."""
+
+    return datetime.utcfromtimestamp(unix_time)
+
+
+# TODO: unify redundant time functions
+def time_from_string(mytime_str, tformat="%H:%M"):
+    """Converts a string into a time object."""
+    return datetime.strptime(mytime_str, tformat).time()
+
+
+def date_from_string(mydate_str):
+    """Converts a string into a date object."""
+    return datetime.strptime(mydate_str, "%Y-%m-%d").date()
+
+
 def format_dt_object(dt_obj, fmt_str):
     """return date time object in format specified."""
 
     return datetime.strftime(dt_obj, fmt_str)
+
+
+def string_to_datetime(date_str, time_format):
+    """Convert pre-checked string into datetime object."""
+
+    datet_obj = datetime.strptime(date_str, time_format)
+
+    return datet_obj
+
+
+def get_relative_ndays_from_date(date_str):
+    """
+    Converts a given date string to a string representing the relative time from that date.
+
+    Parameters:
+    - date_str (str): A string representing a date in any valid format.
+
+    Returns:
+    - str: A string representing the relative time from the given date string.
+
+    Example:
+    >>> format_datetime_to_relative('2022-01-01')
+    '2 years ago'
+    """
+
+    parsed_date_time = arrow.get(date_str)
+    return parsed_date_time.humanize()
+
+
+####################################################################
+### Datetime checks
+###
 
 
 def check_date_fmt(date_string=None):
@@ -49,12 +109,9 @@ def check_date_fmt(date_string=None):
     return False
 
 
-def string_to_datetime(date_str, time_format):
-    """Convert pre-checked string into datetime object."""
-
-    datet_obj = datetime.strptime(date_str, time_format)
-
-    return datet_obj
+####################################################################
+### Datetime complex
+###
 
 
 def calc_ndays_fwd(ndays):
@@ -83,40 +140,3 @@ def calc_days_from_2dates_diff(prev_date):
     # ndays_back = utc_time_now - timedelta(days=prev_date)
     ndays_back = utc_time_now - prev_date
     return ndays_back.days
-
-
-def datetimeformat(date_str):
-    """Print relative time from date_str."""
-
-    mydate_time = arrow.get(date_str)
-    return mydate_time.humanize()
-
-
-def unixtime_to_datestring(unix_time):
-    """Convert unix timestamp into a string."""
-
-    return datetime.fromtimestamp(unix_time).strftime("%Y-%m-%d %H:%M:%S")
-
-
-def unixtime_to_datetime(unix_time):
-    """Convert unix timestamp into a string."""
-
-    return datetime.utcfromtimestamp(unix_time)
-
-
-# TODO: unify redundant time functions
-def time_from_string(mytime_str, tformat="%H:%M"):
-    """Converts a string into a time object."""
-    return datetime.strptime(mytime_str, tformat).time()
-
-
-def date_from_string(mydate_str):
-    """Converts a string into a date object."""
-    return datetime.strptime(mydate_str, "%Y-%m-%d").date()
-
-
-# TODO: Move to another module
-def find_nested_key(aws_response, key_path):
-    """Check if nested mixed dictionary/list object has dict key. Uses pydash get"""
-
-    return get(aws_response, key_path)

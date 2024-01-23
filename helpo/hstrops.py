@@ -7,6 +7,64 @@ from rich import print as print
 LOG = logging.getLogger(__name__)
 
 
+####################################################################
+### String search functions
+###
+
+
+def does_str_contain_pattern(instr, match_patts):
+    """
+    Checks if a string contains any of the specified patterns.
+
+    Args:
+        instr (str): The string to check.
+        match_patts (list): The patterns to check for.
+
+    Returns:
+        bool: True if the string contains any of the patterns, False otherwise.
+
+    Example:
+        >>> does_str_contain_pattern("Hello, World", ["World"])
+        True
+    """
+    instr_clean = instr.strip()
+    for input_patt in match_patts:
+        if input_patt.strip() in instr_clean:
+            return True
+    return False
+
+
+def does_str_start_with_pattern(instr, match_patts):
+    """
+    Checks if a string starts with any of the specified patterns.
+
+    Args:
+        instr (str): The string to check.
+        match_patts (list): The patterns to check for.
+
+    Returns:
+        bool: True if the string starts with any of the patterns, False otherwise.
+
+    Example:
+        >>> does_str_start_with_pattern("Hello, World", ["Hello"])
+        True
+    """
+    for idx in range(len(match_patts)):
+        clean_patt = match_patts[idx].strip()
+        match_patts[idx] = clean_patt
+
+    instr_clean = instr.strip()
+    for patt in match_patts:
+        if instr_clean.startswith(patt):
+            return True
+    return False
+
+
+####################################################################
+### Transformations from string --> other formats
+###
+
+
 def get_lines_between_tags(filetext, start_tag="```{toctree}", end_tag="```"):
     """
     Extracts lines of text between specified start and end tags.
@@ -114,123 +172,6 @@ def get_multiblocks_between_tags(filetext, start_tag=":::", end_tag=":::"):
     return block_holder
 
 
-def norm_key(instr):
-    """
-    Normalizes a string by converting it to lowercase and removing spaces, hyphens, and underscores.
-
-    Args:
-        instr (str): The string to normalize.
-
-    Returns:
-        str: The normalized string.
-
-    Example:
-        >>> norm_key("Hello_World-Test")
-        'helloworldtest'
-    """
-    return instr.lower().replace(" ", "").replace("-", "").replace("_", "").strip()
-
-
-def rreplace(instr, match_str, replace_str, times):
-    """
-    Replaces the last occurrences of a substring in a string with another substring.
-
-    Args:
-        instr (str): The string to modify.
-        match_str (str): The substring to replace.
-        replace_str (str): The substring to replace with.
-        times (int): The number of occurrences to replace.
-
-    Returns:
-        str: The modified string.
-
-    Example:
-        >>> rreplace("Hello, World, Hello, World", "World", "Everyone", 1)
-        'Hello, World, Hello, Everyone'
-    """
-
-    rsplit_li = instr.rsplit(match_str, times)
-    return replace_str.join(rsplit_li)
-
-
-def clean_list_via_rm_patts(input_list, rm_patts, rm_empty_instrs=True):
-    """
-    Cleans a list by removing elements that are empty or contain any of the specified patterns.
-
-    Args:
-        input_list (list): The list to be cleaned.
-        rm_patts (list): The patterns to remove.
-        rm_empty_instrs (bool, optional): Whether to remove empty strings. Defaults to True.
-
-    Returns:
-        list: The cleaned list.
-
-    Example:
-        >>> clean_list_via_rm_patts(["Hello", "World", "", "Hello, World"], ["World"])
-        ['Hello', '']
-    """
-    clean_list = []
-    for instr in input_list:
-        instr_is_empty = len(instr.strip()) == 0
-        instr_contains_rm_patts = any(rm_patt in instr for rm_patt in rm_patts)
-
-        if instr_is_empty and rm_empty_instrs:
-            continue
-        if instr_contains_rm_patts:
-            continue
-
-        clean_list.append(instr)
-    return clean_list
-
-
-def does_str_contain_pattern(instr, match_patts):
-    """
-    Checks if a string contains any of the specified patterns.
-
-    Args:
-        instr (str): The string to check.
-        match_patts (list): The patterns to check for.
-
-    Returns:
-        bool: True if the string contains any of the patterns, False otherwise.
-
-    Example:
-        >>> does_str_contain_pattern("Hello, World", ["World"])
-        True
-    """
-    instr_clean = instr.strip()
-    for input_patt in match_patts:
-        if input_patt.strip() in instr_clean:
-            return True
-    return False
-
-
-def does_str_start_with_pattern(instr, match_patts):
-    """
-    Checks if a string starts with any of the specified patterns.
-
-    Args:
-        instr (str): The string to check.
-        match_patts (list): The patterns to check for.
-
-    Returns:
-        bool: True if the string starts with any of the patterns, False otherwise.
-
-    Example:
-        >>> does_str_start_with_pattern("Hello, World", ["Hello"])
-        True
-    """
-    for idx in range(len(match_patts)):
-        clean_patt = match_patts[idx].strip()
-        match_patts[idx] = clean_patt
-
-    instr_clean = instr.strip()
-    for patt in match_patts:
-        if instr_clean.startswith(patt):
-            return True
-    return False
-
-
 # TODO: use this function more
 def multiline_str_2list(multiline_str, delimiter="\n"):
     """
@@ -250,6 +191,11 @@ def multiline_str_2list(multiline_str, delimiter="\n"):
     mstr = multiline_str.split(delimiter)
     mstr_clean = [line.strip() for line in mstr if line.strip() != ""]
     return mstr_clean
+
+
+####################################################################
+### StringOps: Perform Operations on a string to change it's content
+###
 
 
 def rm_lines_starting_with(multiline_str, rm_patts):
@@ -346,3 +292,68 @@ def str_multi_replace(instr, rm_patts, replace_str):
         print("patt_clean", patt_clean)
         instr = instr.replace(patt_clean, replace_str)
     return instr
+
+
+def count_str_whitespace(mystr):
+    """
+    Counts the number of whitespace characters in a given string.
+
+    Parameters:
+    - mystr (str): The input string to count whitespace characters from.
+
+    Returns:
+    - count (int): The number of whitespace characters in the input string.
+
+    Example:
+    >>> count_str_whitespace("Hello World")
+    1
+    >>> count_str_whitespace("   ")
+    3
+    >>> count_str_whitespace("NoWhitespace")
+    0
+    """
+    count = 0
+    for mychar in mystr:
+        if mychar.isspace():
+            count += 1
+    return count
+
+
+def norm_key(instr):
+    """
+    Normalizes a string by converting it to lowercase and removing spaces, hyphens, and underscores.
+    Note use replace_str_pline() if you need custom options
+
+    Args:
+        instr (str): The string to normalize.
+
+    Returns:
+        str: The normalized string.
+
+    Example:
+        >>> norm_key("Hello_World-Test")
+        'helloworldtest'
+    """
+    return instr.lower().replace(" ", "").replace("-", "").replace("_", "").strip()
+
+
+def rreplace(instr, match_str, replace_str, times):
+    """
+    Replaces the last occurrences of a substring in a string with another substring.
+
+    Args:
+        instr (str): The string to modify.
+        match_str (str): The substring to replace.
+        replace_str (str): The substring to replace with.
+        times (int): The number of occurrences to replace.
+
+    Returns:
+        str: The modified string.
+
+    Example:
+        >>> rreplace("Hello, World, Hello, World", "World", "Everyone", 1)
+        'Hello, World, Hello, Everyone'
+    """
+
+    rsplit_li = instr.rsplit(match_str, times)
+    return replace_str.join(rsplit_li)

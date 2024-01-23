@@ -1,8 +1,11 @@
 """Subprocess Helper functions."""
+import logging
 import shlex
 import subprocess
 import sys
 from typing import List, Optional, Union
+
+LOG = logging.getLogger(__name__)
 
 
 def shlex_convert_str_2list(comm_str: str) -> List[str]:
@@ -116,10 +119,7 @@ def run_cmd_with_pipes(comm_li):
             process_args["stdin"] = proc_step_dict[last_proc].stdout
         proc_step_dict[curr_proc] = subprocess.Popen(**process_args)
 
-    out, err = proc_step_dict[curr_proc].communicate(timeout=15)
-    print("\nout:", len(out), out)
-    print("\nerr:", err)
-
+    out, _ = proc_step_dict[curr_proc].communicate(timeout=15)
     if len(out) == 0:
         print("\n### Checking Subprocess errors")
         check_pipe_errors(proc_step_dict, comm_li)
