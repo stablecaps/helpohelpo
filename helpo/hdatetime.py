@@ -1,14 +1,11 @@
 """Helpers to manipulate times"""
 
 import logging
-import os
 import re
-import sys
 from datetime import datetime, timedelta
 
 import arrow
 from dateutil import tz
-from pydash import get
 
 LOG = logging.getLogger(__name__)
 
@@ -20,7 +17,6 @@ LOG = logging.getLogger(__name__)
 
 def get_unix_ts_unit(unix_ts):
     """Check if linux timestamp units are in seconds or ms."""
-
     if len(unix_ts) == 13:
         unit = "ms"
     elif len(unix_ts) == 10:
@@ -32,19 +28,16 @@ def get_unix_ts_unit(unix_ts):
 
 def convert_unix_time(unix_time):
     """Convert unix timestamp to date-time object."""
-
     return datetime.fromtimestamp(unix_time / 1000, tz=tz.tzutc())
 
 
 def unixtime_to_datestring(unix_time, fmt_str="%Y-%m-%d %H:%M:%S"):
     """Convert unix timestamp into a string."""
-
     return datetime.fromtimestamp(unix_time).strftime(fmt_str)
 
 
 def unixtime_to_datetime(unix_time):
     """Convert unix timestamp into a string."""
-
     return datetime.utcfromtimestamp(unix_time)
 
 
@@ -61,13 +54,11 @@ def date_from_string(mydate_str):
 
 def format_dt_object(dt_obj, fmt_str):
     """return date time object in format specified."""
-
     return datetime.strftime(dt_obj, fmt_str)
 
 
 def string_to_datetime(date_str, time_format):
     """Convert pre-checked string into datetime object."""
-
     datet_obj = datetime.strptime(date_str, time_format)
 
     return datet_obj
@@ -87,7 +78,6 @@ def get_relative_ndays_from_date(date_str):
     >>> format_datetime_to_relative('2022-01-01')
     '2 years ago'
     """
-
     parsed_date_time = arrow.get(date_str)
     return parsed_date_time.humanize()
 
@@ -99,7 +89,6 @@ def get_relative_ndays_from_date(date_str):
 
 def check_date_fmt(date_string=None):
     """Check that date matches format "YYYY-MM-DD"."""
-
     if re.match(REGEX_PATTERN, date_string):
         LOG.debug("date string verified")
         return True
@@ -117,7 +106,6 @@ def check_date_fmt(date_string=None):
 def calc_ndays_fwd(ndays):
     """Returns a date string n days from today for use in
     an AWS schedule_deletion tag."""
-
     utc_time_now = datetime.utcnow()
     ndays_fwd = utc_time_now.date() + timedelta(days=ndays)
     ndays_fwd_str = format_dt_object(ndays_fwd, "%Y-%m-%d")
@@ -127,7 +115,6 @@ def calc_ndays_fwd(ndays):
 
 def calc_ndays_back_from_today(days_back):
     """Calculates the difference bewteen today and ndays back."""
-
     utc_time_now = datetime.utcnow().replace(tzinfo=tz.tzutc())
     ndays_back = utc_time_now - timedelta(days=days_back)
     return ndays_back
@@ -135,7 +122,6 @@ def calc_ndays_back_from_today(days_back):
 
 def calc_days_from_2dates_diff(prev_date):
     """Calculates the difference bewteen today and a previous date in days."""
-
     utc_time_now = datetime.utcnow().replace(tzinfo=tz.tzutc())
     # ndays_back = utc_time_now - timedelta(days=prev_date)
     ndays_back = utc_time_now - prev_date

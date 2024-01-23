@@ -2,7 +2,7 @@
 
 import logging
 
-from rich import print as print
+from rich import print
 
 LOG = logging.getLogger(__name__)
 
@@ -82,7 +82,6 @@ def get_lines_between_tags(filetext, start_tag="```{toctree}", end_tag="```"):
         >>> get_lines_between_tags(text)
         ['```{toctree}', 'World', '```']
     """
-
     line_holder = []
     inRecordingMode = False
     tags_found = 0
@@ -161,8 +160,7 @@ def get_multiblocks_between_tags(filetext, start_tag=":::", end_tag=":::"):
         if not inRecordingMode:
             if start_tag in line:
                 inRecordingMode = True
-                line_holder = []
-                line_holder.append(line)
+                line_holder = [line]
         elif end_tag in line:
             inRecordingMode = False
             line_holder.append(line)
@@ -354,6 +352,5 @@ def rreplace(instr, match_str, replace_str, times):
         >>> rreplace("Hello, World, Hello, World", "World", "Everyone", 1)
         'Hello, World, Hello, Everyone'
     """
-
     rsplit_li = instr.rsplit(match_str, times)
     return replace_str.join(rsplit_li)
