@@ -63,7 +63,7 @@ tag_format = "{version}"
 build_command = "poetry build"
 
 [tool.semantic_release.branches.master]
-match = "master"
+match = "master|feat/something|release/*"
 prerelease_token = "rc"
 prerelease = false
 
